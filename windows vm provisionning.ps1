@@ -134,6 +134,20 @@ cinst sysinternals
 #GitHub, and Bitbucket multi-factor authentication.
 cinst Git-Credential-Manager-for-Windows
 
+# Visual Studio code extensions
+code --install-extension Shan.code-settings-sync
+code --install-extension bierner.color-info
+code --install-extension christian-kohler.path-intellisense
+code --install-extension codezombiech.gitignore
+code --install-extension emmanuelbeziat.vscode-great-icons
+code --install-extension erikphansen.vscode-toggle-column-selection
+code --install-extension michelemelluso.code-beautifier
+code --install-extension mohsen1.prettify-json
+code --install-extension oderwat.indent-rainbow
+code --install-extension riccardoNovaglia.missinglineendoffile
+code --install-extension shardulm94.trailing-spaces
+code --install-extension wayou.vscode-todo-highlight
+
 ### Pin apps
 Install-ChocolateyPinnedTaskBarItem "$env:programfiles\Google\Chrome\Application\chrome.exe"
 
