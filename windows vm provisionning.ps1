@@ -34,6 +34,8 @@ $ErrorActionPreference = "SilentlyContinue"
 $VerbosePreference = 'Continue'
 $DebugPreference = 'Continue'
 
+Install-PackageProvider -Name NuGet
+
 # Install module from provider
 Install-Module -name "PowershellLogging"
 # Import necessary modules
