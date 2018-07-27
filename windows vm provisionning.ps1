@@ -31,22 +31,23 @@
 
 #Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
+$VerbosePreference = 'Continue'
+$DebugPreference = 'Continue'
 
-#Dot Source required Function Libraries
-. "C:\Scripts\Functions\Logging_Functions.ps1"
-
+# Install module from provider
+Install-Module -name "PowershellLogging"
 # Import necessary modules
-Import-Module Boxstarter.Chocolatey
+Import-Module PowershellLogging
 
 #----------------------------------------------------------[Declarations]----------------------------------------------------------
 
-#Script Version
-$sScriptVersion = "1.0"
-
-#Log File Info
-$sLogPath = "C:\Windows\Temp"
-$sLogName = "<script_name>.log"
-$sLogFile = Join-Path -Path $sLogPath -ChildPath $sLogName
+<#
+Note - it is necessary to save the result of Enable-LogFile to a variable in order to
+keep the object alive.  As soon as the $LogFile variable is reassigned or falls out of scope,
+the LogFile object becomes eligible for garbage collection.
+#>
+$LogFile = Enable-LogFile -Path $env:UserProfile\Desktop\Provisionning.log
+$ScriptVersion = "1.0"
 $OsVersion = (Get-ComputerInfo).OsVersion
 $OsType = (Get-ComputerInfo).OsProductType
 
@@ -55,7 +56,8 @@ $OsType = (Get-ComputerInfo).OsProductType
 
 #-----------------------------------------------------------[Execution]------------------------------------------------------------
 
-#Log-Start -LogPath $sLogPath -LogName $sLogName -ScriptVersion $sScriptVersion
+# Write script version to log
+$ScriptVersion
 
 # Write Powershell version to log file.
 $PSVersionTable.PSVersion
@@ -68,6 +70,9 @@ choco feature enable -n allowGlobalConfirmation
 
 # Install Boxstarter installation tool
 cinst boxstarter
+
+# Import Boxstarter module
+Import-Module Boxstarter.Chocolatey
 
 # Set execution policy with boxstarter
 Update-ExecutionPolicy Unrestricted
@@ -138,4 +143,4 @@ Install-WindowsUpdate -acceptEula
 #  remove  the Previous Windows Installation / Upgrade files
 Remove-WindowsUpgradeFiles -Verbose -Confirm:$false
 
-#Log-Finish -LogPath $sLogFile
+$LogFile | Disable-LogFile
